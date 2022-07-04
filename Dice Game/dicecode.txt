@@ -1,0 +1,202 @@
+java
+
+
+package com.example.dicegame;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.Random;
+
+public class MainActivity extends AppCompatActivity {
+    TextView player1,player2,chance;
+    ImageView diceimg;
+    Button roll;
+    int currentplyr=1,p1score,p2score;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        player1=findViewById(R.id.ply1);
+        player2 =findViewById(R.id.ply2);
+        diceimg=findViewById(R.id.image);
+        chance=findViewById(R.id.chancetext);
+    }
+
+    public void rolldice(View v)
+    {
+        int[] diceno;
+        diceno = new int[]{1,2,3,4,5,6};
+        Random random = new Random();
+        int randomIndex= random.nextInt(diceno.length);
+        int num = diceno[randomIndex];
+
+        setimg(num);
+        if(currentplyr==1){
+
+            p1score+=num;
+            String result=String.valueOf(p1score);
+            player1.setText(result);
+
+            if(num==6){
+                currentplyr=1;
+            }
+            else{
+                currentplyr=2;
+                chance.setText("Player2 Roll The Dice");
+                chance.setBackgroundColor(Color.parseColor("#2196F3"));
+            }
+        }
+        else{
+            p2score+=num;
+            String result=String.valueOf(p2score);
+            player2.setText(result);
+
+            if(num==6){
+                currentplyr=2;
+            }
+            else{
+                currentplyr=1;
+                chance.setText("Player1 Roll The Dice");
+                chance.setBackgroundColor(Color.parseColor("#05FF0F"));
+
+            }
+
+        }
+    }
+
+    public void setimg(int num)
+    {
+        if(num==1){
+            diceimg.setImageResource(R.drawable.one);
+        }
+        if(num==2){
+            diceimg.setImageResource(R.drawable.two);
+        }
+        if(num==3){
+            diceimg.setImageResource(R.drawable.three);
+        }
+        if(num==4){
+            diceimg.setImageResource(R.drawable.four);
+        }
+        if(num==5){
+            diceimg.setImageResource(R.drawable.five);
+        }
+        if(num==6){
+            diceimg.setImageResource(R.drawable.six);
+        }
+    }
+
+}
+
+
+*************************************************************************
+xml
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DICE GAME"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:textColor="#E34C4C"
+        android:textStyle="bold"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="30dp">
+
+        <TextView
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:text="PLAYER1"
+            android:background="#05FF0F"
+            />
+
+        <TextView
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:text="PLAYER2"
+            android:background="#2196F3"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="2dp">
+
+        <TextView
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:id="@+id/ply1"
+            />
+
+        <TextView
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:id="@+id/ply2"
+            />
+
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_margin="30dp"
+        android:layout_gravity="center"
+        android:src="@drawable/one"
+        android:onClick="rolldice"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Player1 Roll The dice"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:layout_margin="30dp"
+        android:background="#2196F3"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/chancetext"
+        />
+
+</LinearLayout>
+
